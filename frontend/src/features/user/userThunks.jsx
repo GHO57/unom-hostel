@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
-//login
 
+//login
 export const login = createAsyncThunk("user/login", async(form, thunkAPI) => {
     try{
         const config = { headers : { "Content-Type" : "application/json" }};
@@ -32,3 +32,18 @@ export const logoutuser = createAsyncThunk("user/logout", async(thunkAPI) => {
         }
     }
 })     
+
+//load user
+export const loaduser = createAsyncThunk("user/load", async(thunkAPI) => {
+    try{
+        const { data } = await axios.get('/api/v1/user/dashboard')
+
+        return data
+    }catch(error){
+        if(error.response){
+            return thunkAPI.rejectWithValue(error.response.data)
+        }else{
+            return thunkAPI.rejectWithValue({ message: error.message })
+        }
+    }
+})
