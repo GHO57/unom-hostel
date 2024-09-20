@@ -18,6 +18,8 @@ exports.login = catchAsyncErrors(async(req, res, next) => {
 
     const [db_pass] = await pool.execute('SELECT password FROM student WHERE email = ?', [email])
 
+    if(db_pass.length === 0) return next(new errorHandler('Invalid password', 400))
+        
     if(password === db_pass[0].password){
         const [existingUser] = await pool.execute('SELECT * FROM student WHERE email = ?', [email])
         
@@ -45,3 +47,21 @@ exports.logout = catchAsyncErrors(async(req, res, next) => {
     })
 })
 
+exports.getuserdetails = catchAsyncErrors(async(req, res, next) => {
+    const { studentId } = req.user[0][0]
+
+    try{
+        const [user] = await pool.execute('SELECT * FROM student WHERE id = ?', [studentId])
+
+        if(user.length > 0){
+            res.status(200).json({
+                success: true,
+                user,
+            })
+        }else{
+            return next(new errorHandler("Student not found", 404))
+        }
+    }catch(err){
+        return next(new errorHandler(`Something Went Wrong`, 500))
+    }
+})

@@ -18,7 +18,7 @@ const Help = [
 const Footer = () => {
   return (
     <>
-      <div className='h-full w-full bg-[#000] px-[7rem] pt-[5rem]'>
+      <div className='h-full w-full bg-[#000] px-[7rem] pt-[5rem] xl:p-[2rem]'>
         <div className='flex justify-between'>
           <div className='w-full flex flex-col justify-between flex-[1] '>
             <h2 className='text-[31px] font-extrabold text-primary cursor-default select-none'><img className='w-[160px]' src="/genie-logo-white.svg" alt="" /></h2>

@@ -12,6 +12,7 @@ import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotFound from './layouts/404/NotFound'
 import { clearUserError, clearUserMessage } from './features/user/userSlice'
+import { loaduser } from './features/user/userThunks'
 
 function App() {
 
@@ -21,14 +22,14 @@ function App() {
   const { loading, loadingLogin, isAuthenticated, message, error } = useSelector((state) => state.user)
   useEffect(() => {
     
-    // if(!hasLoadedUser.current){
-    //   dispatch(loaduser())
-    //   hasLoadedUser.current = true
-    // }
+    if(!hasLoadedUser.current){
+      dispatch(loaduser())
+      hasLoadedUser.current = true
+    }
 
     if((!loadingLogin && message) || (!loading && message)){
       toast.dismiss()
-      toast.success( message);
+      toast.success(message);
 
       if (message) dispatch(clearUserMessage());
 

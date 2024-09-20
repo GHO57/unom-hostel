@@ -2,10 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
     login,
     logoutuser,
+    loaduser
 } from './userThunks'
 
 const initialState = {
-    user: {},
+    user: [],
     loading: false,
     loadingLogin: false,
     isAuthenticated: false,
@@ -38,7 +39,6 @@ const userSlice = createSlice({
                     loadingLogin: true,
                     isAuthenticated: false,
                     isLoggingIn: false,
-                    newUser: false,
                     message: null,
                     error: null
                 }
@@ -53,7 +53,7 @@ const userSlice = createSlice({
                         isAuthenticated: true,
                         isLoggingIn: true,
                         user: action.payload.user,
-                        message: `Welcome ${action.payload.user[0].fullname}`,
+                        message: `Welcome ${action.payload.user[0].full_name}`,
                         error: null
                     }
             })
@@ -77,7 +77,6 @@ const userSlice = createSlice({
                     loading: true,
                     loadingLogin:false, 
                     isAuthenticated: true,
-                    newUser: false,
                     message: null,
                     error: null
                 }
@@ -90,7 +89,6 @@ const userSlice = createSlice({
                     loading: false,
                     loadingLogin: false,
                     isAuthenticated: false,
-                    newUser: false,
                     user: null,
                     message: action.payload.message,
                     error: null,
@@ -104,7 +102,43 @@ const userSlice = createSlice({
                     loading: false,
                     loadingLogin: false,
                     isAuthenticated: true,
-                    newUser: false,
+                    error: action.payload
+                }
+            })
+
+            //loaduser pending
+            .addCase(loaduser.pending, (state) => {
+                return{
+                    ...state, 
+                    loading: true,
+                    loadingLogin:false, 
+                    isAuthenticated: false,
+                    user: null,
+                    message: null,
+                    error: null
+                }
+            })
+
+            //loaduser fulfilled
+            .addCase(loaduser.fulfilled, (state, action) => {
+                return{
+                    ...state, 
+                    loading: false,
+                    loadingLogin: false,
+                    isAuthenticated: true,
+                    user: action.payload.user,
+                    error: null
+                }
+            })
+            
+            //loaduser rejected
+            .addCase(loaduser.rejected, (state, action) => {
+                return{
+                    ...state, 
+                    loading: false,
+                    loadingLogin: false,
+                    isAuthenticated: false,
+                    user: null,
                     error: action.payload
                 }
             })
