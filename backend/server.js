@@ -1,6 +1,8 @@
 const app = require("./app")
 const dotenv = require("dotenv")
 const { db_connection } = require("./config/database")
+const path = require("path");
+const express = require("express")
 
 //.env config
 
@@ -11,6 +13,14 @@ dotenv.config({
 //checking database connection status
 
 db_connection()
+
+// Serve static files from the Vite 'dist' directory
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// Handle any other routes and serve the index.html file
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
 
 
 //running the server
