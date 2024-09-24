@@ -11,17 +11,30 @@ import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom'; 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutuser } from '../../../features/user/userThunks';
+
 const Navbar = () => {
     const [state, setState] = React.useState({
         left: false,
     });
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { isAuthenticated } = useSelector((state) => state.user);
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
         setState((prevState) => ({ ...prevState, left: !prevState.left }));
+    };
+
+    const handleLogout = () => {
+        dispatch(logoutuser());
+        navigate('/'); 
     };
 
     const list = () => (
@@ -48,24 +61,36 @@ const Navbar = () => {
                         <ListItemText primary={"About"} />
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component={Link} to="/contact"> 
-                        <ListItemIcon>
-                            <PermContactCalendarIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={"Contact"} />
-                    </ListItemButton>
-                </ListItem>
+                
+                {isAuthenticated && (
+                    <ListItem disablePadding>
+                        <ListItemButton component={Link} to="/account"> 
+                            <ListItemIcon>
+                                <PermContactCalendarIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={"Account"} />
+                        </ListItemButton>
+                    </ListItem>
+                )}
             </List>
             <Divider />
             <List>
                 <ListItem disablePadding>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <HomeIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={"Inbox"} />
-                    </ListItemButton>
+                    {!isAuthenticated ? (
+                        <ListItemButton component={Link} to="/login">
+                            <ListItemIcon>
+                                <AccountCircleIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={"Login"} />
+                        </ListItemButton>
+                    ) : (
+                        <ListItemButton onClick={handleLogout}>
+                            <ListItemIcon>
+                                <AccountCircleIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={"Logout"} />
+                        </ListItemButton>
+                    )}
                 </ListItem>
             </List>
         </Box>
@@ -86,6 +111,6 @@ const Navbar = () => {
             </Drawer>
         </div>
     );
-}
+};
 
 export default Navbar;
