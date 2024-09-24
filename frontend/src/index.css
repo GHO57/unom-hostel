@@ -159,4 +159,19 @@
     opacity: 1; /* Fully opaque when loaded */
   }
 
+  .Navbar {
+    position: relative;
+}
+
+@media (max-width: 600px) {
+    .MuiDrawer-paper {
+        width: 250px; /* Adjust width for mobile */
+    }
+
+    .MuiButtonBase-root {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
   

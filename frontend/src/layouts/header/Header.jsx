@@ -10,7 +10,7 @@ import { MdSpaceDashboard, MdOutlineStorefront } from "react-icons/md";
 import { FaShop, FaTrash, FaUserShield, FaUser } from "react-icons/fa6";
 import { TfiPackage } from "react-icons/tfi";
 import { useDispatch, useSelector } from 'react-redux';
-import { Login } from "../../components"
+import { Login, NavBar } from "../../components"
 import { logoutuser } from '../../features/user/userThunks';
 import { Badge } from '@mui/material';
 
@@ -45,6 +45,7 @@ const header = () => {
     <Login trigger={popLogin} setTrigger={setPopLogin}/>
       <div className='flex-center w-full h-auto px-[5rem] py-[1.2rem]'>
         <div className='flex justify-between w-full'>
+        <NavBar /> 
           <div className='flex-center'>
             <Link to="/" className='font-extrabold text-mediumGray text-[22px]'>
               <img className='w-[90px]' src="/genie-logo.svg" alt="" />
