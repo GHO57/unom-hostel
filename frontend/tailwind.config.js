@@ -18,8 +18,19 @@ export default {
         lightGray4: "#f2f2f2",
         dimWhite: "rgba(255, 255, 255, 0.7)",
       },
+      scrollSnapType: {
+        y: 'y mandatory',
+      },
+      scrollSnapAlign: {
+        center: 'center',
+      },
+    },
+  },
+  variants: {
+    extend: {
+      opacity: ['responsive', 'hover', 'focus', 'active'],
+      translate: ['responsive', 'hover', 'focus', 'active'],
     },
   },
   plugins: [],
 }
-

@@ -143,3 +143,14 @@
     border-radius: 4px;
     align-self: center;
 }
+
+.fade-in {
+    opacity: 0; /* Start hidden */
+    transform: translateY(20px); /* Start with a slight downward offset */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth fade-in */
+  }
+  
+  .fade-in.visible {
+    opacity: 1; /* Fully visible */
+    transform: translateY(0); /* Move to original position */
+  }
