@@ -154,3 +154,9 @@
     opacity: 1; /* Fully visible */
     transform: translateY(0); /* Move to original position */
   }
+  
+  .fade-in.loaded {
+    opacity: 1; /* Fully opaque when loaded */
+  }
+
+  

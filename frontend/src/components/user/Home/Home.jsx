@@ -87,24 +87,24 @@ const Home = () => {
   const sectionRefs = useRef([]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          } else {
-            entry.target.classList.remove('visible'); 
-          }
-        });
-      },
-      { threshold: 0.1 } 
-    );
+    const options = {
+      rootMargin: "0px",
+      threshold: 0.1 
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('loaded');
+          observer.unobserve(entry.target); 
+        }
+      });
+    }, options);
 
     sectionRefs.current.forEach((section) => {
       if (section) observer.observe(section);
     });
 
-    
     return () => {
       sectionRefs.current.forEach((section) => {
         if (section) observer.unobserve(section);
@@ -115,12 +115,11 @@ const Home = () => {
   return (
     <div className="scroll-snap-y">
       <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-4 text-center">{hostelData.title}</h1>
-      <motion.div
+        <h1 className="text-4xl font-bold mb-4 text-center">{hostelData.title}</h1>
+        <motion.div
+          id="first-section" 
+          ref={(el) => (sectionRefs.current[0] = el)} 
           className="snap-center h-auto flex flex-col items-center justify-center p-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white fade-in"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }} 
         >
           <p className="text-lg mb-6">{hostelData.description}</p>
         </motion.div>
@@ -128,11 +127,8 @@ const Home = () => {
         {hostelData.sections.map((section, index) => (
           <motion.div
             key={index}
-            ref={(el) => (sectionRefs.current[index] = el)}
+            ref={(el) => (sectionRefs.current[index + 1] = el)} 
             className="snap-center h-screen flex flex-col items-center justify-center p-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white fade-in"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: index * 0.3 }} 
           >
             <div className="text-center">
               <h2 className="text-3xl font-semibold mb-2">{section.title}</h2>
